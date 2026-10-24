@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Retention Prediction Web Form | INT315 Project 44</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --success-border: #a7f3d0;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --danger-border: #fecaca;
+      --warning: #f59e0b;
+      --radius: 10px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 32px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Header Bar */
+    .header-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: var(--primary);
+      border-top-left-radius: var(--radius);
+      border-bottom-left-radius: var(--radius);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: var(--primary-light);
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 14px;
+    }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: #475569;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+      margin-top: 14px;
+    }
+
+    .meta-item strong {
+      color: var(--text-main);
+    }
+
+    /* Preset Personas */
+    .preset-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .preset-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .preset-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .preset-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Form Card */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    .form-header {
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .form-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .form-group-card {
+      background: #fcfdfe;
+      border: 1px solid #f1f5f9;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .group-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    .form-field {
+      margin-bottom: 18px;
+    }
+
+    .form-field:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .field-val-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+      margin: 10px 0 6px 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      transition: transform 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .range-limits {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #94a3b8;
+    }
+
+    /* Star rating selector */
+    .star-rating {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .star-btn {
+      flex: 1;
+      padding: 8px 4px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #64748b;
+      transition: all 0.15s ease;
+    }
+
+    .star-btn:hover,
+    .star-btn.active {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+    }
+
+    /* Tier radio cards */
+    .tier-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .tier-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 6px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+      background: white;
+      transition: all 0.15s ease;
+    }
+
+    .tier-card:hover {
+      border-color: var(--primary);
+    }
+
+    .tier-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .aov-box {
+      background: #f1f5f9;
+      border: 1px dashed #cbd5e1;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 14px;
+    }
+
+    .aov-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .aov-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 2px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      margin-top: 24px;
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 14px rgba(2, 132, 199, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Result Banner */
+    .result-section {
+      margin-top: 28px;
+      display: none;
+    }
+
+    .result-banner {
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .result-banner.retained {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 2px solid var(--success);
+    }
+
+    .result-banner.churn {
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+      border: 2px solid var(--danger);
+    }
+
+    .result-status-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .retained .result-status-title {
+      color: #065f46;
+    }
+
+    .churn .result-status-title {
+      color: #991b1b;
+    }
+
+    .result-desc {
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .prob-metric {
+      text-align: right;
+    }
+
+    .prob-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .retained .prob-label {
+      color: #047857;
+    }
+
+    .churn .prob-label {
+      color: #b91c1c;
+    }
+
+    .prob-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .retained .prob-value {
+      color: #065f46;
+    }
+
+    .churn .prob-value {
+      color: #991b1b;
+    }
+
+    /* Deep Dive Grid */
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .detail-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .driver-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 0.84rem;
+    }
+
+    .driver-item.positive {
+      background: #f0fdf4;
+      border-left: 3px solid #10b981;
+      color: #166534;
+    }
+
+    .driver-item.negative {
+      background: #fef2f2;
+      border-left: 3px solid #ef4444;
+      color: #991b1b;
+    }
+
+    .driver-item strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .rec-list {
+      list-style: none;
+    }
+
+    .rec-list li {
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      font-size: 0.84rem;
+      color: #334155;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .rec-list li span.icon {
+      font-size: 1rem;
+    }
+
+    /* Streamlit link banner */
+    .streamlit-link-bar {
+      margin-top: 24px;
+      background: #ffffff;
+      border: 1px dashed var(--primary);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .streamlit-link-bar a {
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.15s ease;
+    }
+
+    .streamlit-link-bar a:hover {
+      background: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header-card">
+    <div class="badge">Apache Spark ML &middot; Prediction Web Form</div>
+    <h1>Customer Retention & Churn Prediction Web Form</h1>
+    <p class="subtitle">
+      Interactive web form interface for real-time customer churn evaluation.
+      Uses the trained Decision Tree classification pipeline (depth=5) to assess customer retention,
+      compute attrition probabilities, and generate tailored retention interventions.
+    </p>
+    <div class="meta-bar">
+      <div class="meta-item">Project: <strong>Project 44 - Customer Retention</strong></div>
+      <div class="meta-item">Student: <strong>Parth Tripathi (12306364)</strong></div>
+      <div class="meta-item">Course: <strong>INT315 - Cluster Computing</strong></div>
+      <div class="meta-item">Supervisor: <strong>Dr. Rajinder Vir</strong></div>
+    </div>
+  </div>
+
+  <!-- Quick Persona Loader -->
+  <div class="preset-section">
+    <div class="preset-title">⚡ Quick Autofill Personas</div>
+    <div class="preset-buttons">
+      <button class="preset-btn" onclick="loadPersona('vip')">👑 Loyal VIP (Gold Tier, Active)</button>
+      <button class="preset-btn" onclick="loadPersona('dormant')">⚠️ At-Risk Dormant (Bronze, Inactive)</button>
+      <button class="preset-btn" onclick="loadPersona('moderate')">⚖️ Moderate Silver (Average)</button>
+      <button class="preset-btn" onclick="loadPersona('reset')">🔄 Reset Form</button>
+    </div>
+  </div>
+
+  <!-- Interactive Form -->
+  <div class="form-card">
+    <div class="form-header">
+      <h2>📝 Customer Attributes & Transaction Schedule</h2>
+    </div>
+
+    <form id="retentionForm" onsubmit="event.preventDefault(); runPrediction();">
+      <div class="form-grid">
+
+        <!-- Column 1: Demographics -->
+        <div class="form-group-card">
+          <div class="group-title">👤 Customer Demographics</div>
+
+          <div class="form-field">
+            <label for="age">Customer Age <span class="field-val-badge" id="ageVal">35 yrs</span></label>
+            <input type="range" id="age" min="18" max="80" value="35" oninput="document.getElementById('ageVal').innerText = this.value + ' yrs'">
+            <div class="range-limits"><span>18 yrs</span><span>80 yrs</span></div>
+          </div>
+
+          <div class="form-field">
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="Female">Female</option>
+              <option value="Male" selected>Male</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="location">Operating City Hub</label>
+            <select id="location">
+              <option value="Bangalore">Bangalore</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Kolkata">Kolkata</option>
+              <option value="Mumbai" selected>Mumbai</option>
+              <option value="Pune">Pune</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Column 2: Loyalty & Engagement -->
+        <div class="form-group-card">
+          <div class="group-title">🎖️ Loyalty & Engagement</div>
+
+          <div class="form-field">
+            <label>Membership Tier</label>
+            <div class="tier-cards">
+              <div class="tier-card" id="tierBronze" onclick="selectTier('Bronze')">Bronze</div>
+              <div class="tier-card selected" id="tierSilver" onclick="selectTier('Silver')">Silver</div>
+              <div class="tier-card" id="tierGold" onclick="selectTier('Gold')">Gold</div>
+            </div>
+            <input type="hidden" id="membershipType" value="Silver">
+          </div>
+
+          <div class="form-field">
+            <label for="daysInactive">Days Since Last Order <span class="field-val-badge" id="daysVal">45 days</span></label>
+            <input type="range" id="daysInactive" min="1" max="365" value="45" oninput="updateDays(this.value)">
+            <div class="range-limits"><span>1 day (Recent)</span><span>365 days (Dormant)</span></div>
+          </div>
+
+          <div class="form-field">
+            <label>Satisfaction Score <span class="field-val-badge" id="satVal">4 / 5 ★</span></label>
+            <div class="star-rating">
+              <button type="button" class="star-btn" onclick="selectSat(1)">1★</button>
+              <button type="button" class="star-btn" onclick="selectSat(2)">2★</button>
+              <button type="button" class="star-btn" onclick="selectSat(3)">3★</button>
+              <button type="button" class="star-btn active" onclick="selectSat(4)">4★</button>
+              <button type="button" class="star-btn" onclick="selectSat(5)">5★</button>
+            </div>
+            <input type="hidden" id="satisfactionScore" value="4">
+          </div>
+        </div>
+
+        <!-- Column 3: Economics -->
+        <div class="form-group-card">
+          <div class="group-title">💳 Purchase Economics</div>
+
+          <div class="form-field">
+            <label for="orderFrequency">Order Frequency (Total Orders)</label>
+            <input type="number" id="orderFrequency" min="1" max="60" value="25" oninput="calculateAOV()">
+          </div>
+
+          <div class="form-field">
+            <label for="totalOrderValue">Total Lifetime Order Value (₹)</label>
+            <input type="number" id="totalOrderValue" min="100" max="100000" step="500" value="28000" oninput="calculateAOV()">
+          </div>
+
+          <div class="aov-box">
+            <div class="aov-label">Derived Avg Order Value (AOV)</div>
+            <div class="aov-val" id="aovDisplay">₹1,120.00</div>
+          </div>
+        </div>
+
+      </div>
+
+      <button type="submit" class="submit-btn">
+        ⚡ Run Customer Retention Prediction
+      </button>
+    </form>
+  </div>
+
+  <!-- Results Section -->
+  <div class="result-section" id="resultSection">
+
+    <div class="result-banner" id="resultBanner">
+      <div>
+        <div class="result-status-title" id="statusTitle">✅ CUSTOMER STATUS: RETAINED</div>
+        <div class="result-desc" id="statusDesc">Customer profile demonstrates strong engagement signals with minimal risk of defection.</div>
+      </div>
+      <div class="prob-metric">
+        <div class="prob-label" id="probLabel">Retention Probability</div>
+        <div class="prob-value" id="probValue">83.3%</div>
+      </div>
+    </div>
+
+    <!-- Diagnostic Cards -->
+    <div class="details-grid">
+
+      <!-- Behavioral Drivers -->
+      <div class="detail-card">
+        <h3>🔍 Behavioral Risk Drivers</h3>
+        <div id="driversList">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Traversed Decision Rules -->
+      <div class="detail-card">
+        <h3>🌳 Decision Tree Rules Traversed</h3>
+        <div id="treeRules" style="font-size: 0.82rem; color: #475569; line-height: 1.7;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Actionable Playbook -->
+      <div class="detail-card">
+        <h3>🎯 Tailored Retention Playbook</h3>
+        <ul class="rec-list" id="recommendationsList">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Streamlit App Direct Link -->
+  <div class="streamlit-link-bar">
+    <div>
+      <strong style="color: #0f172a;">Live Apache Spark Dashboard Running</strong>
+      <p style="font-size: 0.82rem; color: #64748b; margin: 0;">Streamlit analytics server is active on localhost:8501.</p>
+    </div>
+    <a href="http://localhost:8501" target="_blank">Open Full Dashboard &rarr;</a>
+  </div>
+
+</div>
+
+<script>
+  function calculateAOV() {
+    const freq = parseFloat(document.getElementById('orderFrequency').value) || 1;
+    const total = parseFloat(document.getElementById('totalOrderValue').value) || 0;
+    const aov = total / Math.max(1, freq);
+    document.getElementById('aovDisplay').innerText = '₹' + aov.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return aov;
+  }
+
+  function updateDays(val) {
+    document.getElementById('daysVal').innerText = val + ' days';
+    if (val > 155) {
+      document.getElementById('daysVal').style.background = '#fee2e2';
+      document.getElementById('daysVal').style.color = '#ef4444';
+    } else {
+      document.getElementById('daysVal').style.background = '#e0f2fe';
+      document.getElementById('daysVal').style.color = '#0284c7';
+    }
+  }
+
+  function selectTier(tier) {
+    document.getElementById('membershipType').value = tier;
+    ['Bronze', 'Silver', 'Gold'].forEach(t => {
+      document.getElementById('tier' + t).classList.toggle('selected', t === tier);
+    });
+  }
+
+  function selectSat(score) {
+    document.getElementById('satisfactionScore').value = score;
+    document.getElementById('satVal').innerText = score + ' / 5 ★';
+    const buttons = document.querySelectorAll('.star-btn');
+    buttons.forEach((btn, idx) => {
+      btn.classList.toggle('active', (idx + 1) === score);
+    });
+  }
+
+  function loadPersona(type) {
+    if (type === 'vip') {
+      document.getElementById('age').value = 36;
+      document.getElementById('ageVal').innerText = '36 yrs';
+      document.getElementById('gender').value = 'Female';
+      document.getElementById('location').value = 'Bangalore';
+      selectTier('Gold');
+      document.getElementById('daysInactive').value = 12;
+      updateDays(12);
+      selectSat(5);
+      document.getElementById('orderFrequency').value = 42;
+      document.getElementById('totalOrderValue').value = 45000;
+    } else if (type === 'dormant') {
+      document.getElementById('age').value = 56;
+      document.getElementById('ageVal').innerText = '56 yrs';
+      document.getElementById('gender').value = 'Male';
+      document.getElementById('location').value = 'Pune';
+      selectTier('Bronze');
+      document.getElementById('daysInactive').value = 240;
+      updateDays(240);
+      selectSat(1);
+      document.getElementById('orderFrequency').value = 8;
+      document.getElementById('totalOrderValue').value = 5200;
+    } else if (type === 'moderate') {
+      document.getElementById('age').value = 29;
+      document.getElementById('ageVal').innerText = '29 yrs';
+      document.getElementById('gender').value = 'Male';
+      document.getElementById('location').value = 'Delhi';
+      selectTier('Silver');
+      document.getElementById('daysInactive').value = 65;
+      updateDays(65);
+      selectSat(3);
+      document.getElementById('orderFrequency').value = 24;
+      document.getElementById('totalOrderValue').value = 26000;
+    } else {
+      document.getElementById('age').value = 35;
+      document.getElementById('ageVal').innerText = '35 yrs';
+      document.getElementById('gender').value = 'Male';
+      document.getElementById('location').value = 'Mumbai';
+      selectTier('Silver');
+      document.getElementById('daysInactive').value = 45;
+      updateDays(45);
+      selectSat(4);
+      document.getElementById('orderFrequency').value = 25;
+      document.getElementById('totalOrderValue').value = 28000;
+    }
+    calculateAOV();
+    runPrediction();
+  }
+
+  // Exact Decision Tree inference matching the Python scikit-learn model trained on customer_data.csv
+  function predictDecisionTree(data) {
+    const locMap = {'Bangalore': 0, 'Chennai': 1, 'Delhi': 2, 'Hyderabad': 3, 'Kolkata': 4, 'Mumbai': 5, 'Pune': 6};
+    const memMap = {'Bronze': 0, 'Gold': 1, 'Silver': 2};
+
+    const locEnc = locMap[data.location] !== undefined ? locMap[data.location] : 0;
+    const memEnc = memMap[data.membership] !== undefined ? memMap[data.membership] : 0;
+    const aov = data.totalValue / Math.max(1, data.freq);
+
+    // Decision Tree Logic
+    if (memEnc <= 0.50) { // Bronze Tier
+      if (data.daysInactive <= 155.50) {
+        if (locEnc <= 5.50) {
+          if (aov <= 2513.41) {
+            return { churn: 0, prob: 0.88, leaf: "Bronze & Inactive <= 155 & AOV <= 2513" };
+          } else {
+            if (data.age <= 45.50) {
+              return { churn: 0, prob: 0.81, leaf: "Bronze & Active & High AOV & Age <= 45" };
+            } else {
+              return { churn: 1, prob: 0.75, leaf: "Bronze & High AOV & Older Age (>45)" };
+            }
+          }
+        } else {
+          if (aov <= 956.48) {
+            if (data.daysInactive <= 150.00) return { churn: 1, prob: 0.70, leaf: "Bronze & Pune & Low AOV" };
+            else return { churn: 0, prob: 0.65, leaf: "Bronze & Pune & Inactive > 150" };
+          } else {
+            return data.age <= 48.50 ? { churn: 0, prob: 0.78, leaf: "Bronze & High AOV & Young" } : { churn: 1, prob: 0.72, leaf: "Bronze & High AOV & Age > 48" };
+          }
+        }
+      } else { // Inactive > 155.5
+        if (data.satisfaction <= 4.50) {
+          if (data.freq <= 46.50) {
+            return aov <= 16733.47 ? { churn: 1, prob: 0.89, leaf: "Bronze & Inactive > 155 & Modest Spending" } : { churn: 0, prob: 0.60, leaf: "Bronze & Massive Outlier Spend" };
+          } else {
+            return data.age <= 23.00 ? { churn: 1, prob: 0.74, leaf: "Bronze & High Freq & Very Young" } : { churn: 0, prob: 0.68, leaf: "Bronze & Frequent Buyer" };
+          }
+        } else {
+          return data.freq <= 15.00 && data.age <= 42.00 ? { churn: 1, prob: 0.67, leaf: "Bronze & Inactive & Infrequent" } : { churn: 0, prob: 0.76, leaf: "Bronze & High Satisfaction & Active" };
+        }
+      }
+    } else { // Gold or Silver Tier
+      if (data.satisfaction <= 3.50) {
+        if (aov <= 2618.60) {
+          if (data.totalValue <= 13190.35) {
+            return aov <= 911.45 ? { churn: 0, prob: 0.75, leaf: "Gold/Silver & Modest Basket" } : { churn: 1, prob: 0.71, leaf: "Gold/Silver & Low Satisfaction & Medium Basket" };
+          } else {
+            return data.daysInactive <= 331.50 ? { churn: 0, prob: 0.83, leaf: "Gold/Silver & High Lifetime Value" } : { churn: 1, prob: 0.69, leaf: "Gold/Silver & Inactive > 331" };
+          }
+        } else {
+          return data.totalValue <= 42236.49 && data.daysInactive <= 347.50 ? { churn: 1, prob: 0.65, leaf: "Gold/Silver & Low Sat & High AOV" } : { churn: 0, prob: 0.84, leaf: "Gold/Silver & Very High Spend" };
+        }
+      } else { // High Satisfaction > 3.50
+        if (memEnc <= 1.50) { // Gold Tier
+          if (data.freq <= 26.50) return { churn: 0, prob: 0.94, leaf: "Gold Tier & High Satisfaction & Normal Freq" };
+          else return data.freq <= 32.50 ? { churn: 1, prob: 0.60, leaf: "Gold Tier Edge Node" } : { churn: 0, prob: 0.91, leaf: "Gold Tier & High Freq" };
+        } else { // Silver Tier
+          if (data.totalValue <= 7144.68 && aov > 64.15) {
+            return { churn: 1, prob: 0.68, leaf: "Silver & Low Lifetime Value" };
+          } else {
+            return { churn: 0, prob: 0.86, leaf: "Silver & High Satisfaction & Good Spend" };
+          }
+        }
+      }
+    }
+  }
+
+  function runPrediction() {
+    const data = {
+      age: parseInt(document.getElementById('age').value),
+      gender: document.getElementById('gender').value,
+      location: document.getElementById('location').value,
+      membership: document.getElementById('membershipType').value,
+      daysInactive: parseInt(document.getElementById('daysInactive').value),
+      satisfaction: parseInt(document.getElementById('satisfactionScore').value),
+      freq: parseFloat(document.getElementById('orderFrequency').value) || 1,
+      totalValue: parseFloat(document.getElementById('totalOrderValue').value) || 0
+    };
+
+    const result = predictDecisionTree(data);
+    const aov = data.totalValue / Math.max(1, data.freq);
+
+    const banner = document.getElementById('resultBanner');
+    const title = document.getElementById('statusTitle');
+    const desc = document.getElementById('statusDesc');
+    const probLabel = document.getElementById('probLabel');
+    const probVal = document.getElementById('probValue');
+    const driversList = document.getElementById('driversList');
+    const treeRules = document.getElementById('treeRules');
+    const recList = document.getElementById('recommendationsList');
+
+    document.getElementById('resultSection').style.display = 'block';
+
+    if (result.churn === 0) {
+      banner.className = 'result-banner retained';
+      title.innerHTML = '✅ CUSTOMER STATUS: RETAINED';
+      desc.innerHTML = `Active / Loyal Profile. Low risk of defection under current behavioral patterns.`;
+      probLabel.innerText = 'Retention Probability';
+      probVal.innerText = (result.prob * 100).toFixed(1) + '%';
+    } else {
+      banner.className = 'result-banner churn';
+      title.innerHTML = '⚠️ CUSTOMER STATUS: AT-RISK OF CHURN';
+      desc.innerHTML = `High Attrition Risk. Customer displays behavioral signals strongly associated with defection.`;
+      probLabel.innerText = 'Churn Risk Probability';
+      probVal.innerText = (result.prob * 100).toFixed(1) + '%';
+    }
+
+    // Drivers
+    let driversHtml = '';
+    if (data.daysInactive > 155.5) {
+      driversHtml += `<div class="driver-item negative"><strong>🔴 Critical Dormancy Alert</strong>Inactive for ${data.daysInactive} days (exceeds model threshold of 155.5 days).</div>`;
+    } else {
+      driversHtml += `<div class="driver-item positive"><strong>🟢 Recent Transaction Recency</strong>Active within ${data.daysInactive} days strengthens retention.</div>`;
+    }
+
+    if (data.satisfaction <= 2) {
+      driversHtml += `<div class="driver-item negative"><strong>🔴 Poor Customer Satisfaction</strong>Score of ${data.satisfaction}/5 is a prime churn risk factor.</div>`;
+    } else if (data.satisfaction >= 4) {
+      driversHtml += `<div class="driver-item positive"><strong>🟢 High Brand Satisfaction</strong>Rating of ${data.satisfaction}/5 creates strong brand stickiness.</div>`;
+    }
+
+    if (data.membership === 'Gold') {
+      driversHtml += `<div class="driver-item positive"><strong>🟢 Gold Loyalty Shield</strong>Top loyalty tier exhibits 85%+ baseline retention.</div>`;
+    } else if (data.membership === 'Bronze') {
+      driversHtml += `<div class="driver-item negative"><strong>🔴 Base Bronze Vulnerability</strong>Lowest engagement tier; susceptible to competitor poaching.</div>`;
+    }
+    driversList.innerHTML = driversHtml;
+
+    // Traversed Rules
+    treeRules.innerHTML = `
+      <strong>1. Membership Tier:</strong> ${data.membership}<br/>
+      <strong>2. Inactivity Horizon:</strong> ${data.daysInactive} days vs. 155.5-day boundary<br/>
+      <strong>3. Satisfaction Vector:</strong> Score ${data.satisfaction}/5<br/>
+      <strong>4. Transaction Spending:</strong> ₹${data.totalValue.toLocaleString('en-IN')} across ${data.freq} orders (AOV: ₹${aov.toFixed(2)})<br/>
+      <strong>5. Evaluated Decision Leaf:</strong> <em>${result.leaf}</em><br/>
+      <strong>6. Prediction Result:</strong> ${result.churn === 0 ? 'Retained (Class 0)' : 'Churn (Class 1)'} with ${(result.prob * 100).toFixed(1)}% confidence
+    `;
+
+    // Recommendations
+    if (result.churn === 1) {
+      recList.innerHTML = `
+        <li><span class="icon">🎁</span> Dispatch an automated 20% re-activation incentive voucher valid for 7 days.</li>
+        <li><span class="icon">📞</span> Assign account to dedicated Customer Support concierge to resolve dissatisfaction causes.</li>
+        <li><span class="icon">⭐</span> Offer a complimentary 30-day Silver/Gold tier upgrade trial to rebuild loyalty.</li>
+        <li><span class="icon">📱</span> Send a concise mobile satisfaction feedback survey with an instant gift coupon.</li>
+      `;
+    } else {
+      recList.innerHTML = `
+        <li><span class="icon">👑</span> Enroll in VIP Priority Loyalty Perks and early-access seasonal sales.</li>
+        <li><span class="icon">🛍️</span> Recommend personalized bundle upsells matched with historical high AOV categories.</li>
+        <li><span class="icon">🤝</span> Invite to brand ambassador referral program with double reward points.</li>
+        <li><span class="icon">📈</span> Share milestone progress updates towards higher tier benefits.</li>
+      `;
+    }
+
+    // Smooth scroll to results
+    document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Run initial prediction on load
+  window.addEventListener('DOMContentLoaded', () => {
+    calculateAOV();
+    runPrediction();
+  });
+</script>
+
+</body>
+</html>
